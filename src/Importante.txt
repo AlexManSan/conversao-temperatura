@@ -1,0 +1,36 @@
+####### Primeiros passos:
+1- criar o repositorio no git
+2- clonar o repositorio numa pasta de projetos
+3- abrir o VSCode e criar o arquivo Dockerfile com as informações do container
+4- comitar as alterações para o repositório git remoto
+5- abrir o terminarl com wsl no local dos arquivos do projeto
+6- criar o container com a imagem com o seguinte comando: docker build -t conversao-temperatura .  
+
+### comandos utilizados:
+docker build -t conversao-temperatura .   // esse comando irá criar a imagem com node e os arquivos que copiamos do projeto
+docker image ls  // lista as imagens existentes
+
+docker container run -d -p 8080:8080 conversao-temperatura  // criando o container com a imagem craiada anteriormente 
+docker container ls // para verificar o container em execução
+docker container rm -f cc55561bb28d  // remove o container criado em execução
+docker image prune // deleta as imagens sem referencias os lixos
+docker tag nome_imagem:versao nome_imagem:nova_versao // adiciona uma tag a uma imagem
+
+### construindo imagem, criando tag e usando o docker Hub
+- Fazendo login no docker hub:
+docker login  // por eu esta com o docker desktop instalado e autenticado ele nem pediu o login.
+
+- Recriando a imagem com a atualização da alteração do Dockerfile e criando a tag v0.0.1
+OBS: Atenção não usar o tag latest  para usar a imagem e sim uma versão específica
+docker build -t namespace/repositorio:tag contexto
+docker build -t alexsantos1986/conversao-temperatura:v0.0.1 .
+
+- subindo a imagem para o docker hub
+OBS: tem que subir a latest também
+docker push alexsantos1986/conversao-temperatura:v0.0.1
+docker tag alexsantos1986/conversao-temperatura:v0.0.1 alexsantos1986/conversao-temperatura:latest
+docker push alexsantos1986/conversao-temperatura:latest
+
+
+- rodando o container com a imagem do repositorio:
+docker container run -d -p 8080:8080 alexsantos1986/conversao-temperatura:v0.0.1
